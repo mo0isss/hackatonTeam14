@@ -71,11 +71,16 @@ class EmailParser:
                 else:
                     body += line + '\n'
 
-        return Email(result[0], body.strip(), result[1], result[2], result[3], attachments if attachments != [] else None, isAReply, isAForward, sentFromIphone)
+        return Email(result[0], 
+                     body.strip(), 
+                     result[1], 
+                     result[2], 
+                     result[3], 
+                     attachments if attachments != [] else None, 
+                     isAReply, 
+                     isAForward, 
+                     sentFromIphone)
     
-
-    def parseEml(self, filePath):
-        pass
     
     def parse(self, filePath) -> Email:
         if filePath is None:
@@ -88,16 +93,19 @@ class EmailParser:
         fileExtension = os.path.splitext(filePath)[1].lower()
         if fileExtension == ".txt":
             return self.parseTxt(filePath)
-        elif fileExtension == ".eml":
-            return self.parseEml(filePath)
         else:
-            raise ValueError("Invalid file extension, must be .txt or .eml")
-        
+            try:
+                with open(filePath, 'r', encoding='utf-8') as file:
+                    sample = file.read(512).lower()
+                if any([header in sample for header in ("from", "subject", "от кого", "тема", "topic", "ot kogo", "data", "date", "дата")]):
+                    return self.parseTxt(filePath)
+                else:
+                    raise ValueError("File is not an email")
+            except UnicodeDecodeError:
+                raise ValueError("Invalid file extension, must be .txt")
+            
 file = EmailParser()
-email = file.parseTxt("/Users/m0is/Desktop/hackatonTeam14/hackatonTeam14/inbox/mail_0099.txt")
-print(email.sender, '\n')
-print(email.subject, '\n')
-print(email.date, '\n')
-print(email.recipient, '\n')
-print(email.body, '\n')
-print(email.attachments, '\n')
+email = file.parse("/Users/m0is/Desktop/hackatonTeam14/hackatonTeam14/inbox/mail_0106")
+print(email.sender)
+print(email.body)
+print(email.recipient)
