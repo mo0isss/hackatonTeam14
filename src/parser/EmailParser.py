@@ -2,10 +2,77 @@ import os
 from Email import Email
 
 class EmailParser:
+    def parseTxt(self, filePath) -> Email:
+        content = None
+        for enc in ['utf-8', 'cp1251', 'latin1']:
+            try:
+                with open(filePath, 'r', encoding=enc) as f:
+                    lines = f.readlines()
+                content = lines
+                break
+            except UnicodeDecodeError:
+                continue
 
-    def parseTxt(self, filePath):
-        pass
+        if content is None:
+            raise ValueError("Invalid file encoding")
+        
+        result = [None] * 4
+        sentFromIphone = False
+        isAForward = False
+        isAReply = False
+        # result structure: 1 - sender, 2 - subject, 3 - recipient, 4 - date 
+        inHeader = True
+        body = ""
+        attachments = []
+        possibleHeaders = [("from", "от кого", "sender", "отправитель", "ot kogo"), ("тема", "subject", "topic", "tema"), ("recipient", "получатель", "кому", "komu", "to"), ("date", "дата", "data")]
+        possibleAttachments = ("прикрепил", "вложение", "файл", "во вложении", "pinned", "attached", "prikrepil", "приложил", "прикладываю", "код", "code", "error", "ошибк")
+        possibleFileExtensions = (".txt", ".pdf", ".jpeg", ".docx", ".png", ".xls", ".xlsx", ".jpg", ".json", ".bin")
 
+        for line in lines:
+            line = line.rstrip('\n')
+
+            if "Re:" in line:
+                isAReply = True
+                line = line.replace("Re: ", "").strip()
+            
+            if "Fwd:" in line:
+                isAForward = True
+                line = line.replace("Fwd: ", "").strip()
+
+            if "Otpravleno s iPhone" in line:
+                sentFromIphone = True
+                line = line.replace("Otpravleno s iPhone", "").strip()
+
+            
+            lineCopy = line.lower()
+
+            if inHeader and line == "":
+                inHeader = False
+                continue
+            
+            if inHeader and ':' in line:
+                counter = 0
+                for possibleHeader in possibleHeaders:
+                    if any([header + ":" in lineCopy for header in possibleHeader]):
+                        line = line.replace(": ", " :", 1)
+                        index = line.index(":")
+                        if len(line) <= 1:
+                            continue
+                        else:
+                            result[counter] = line[index + 1:] if len(line) > index + 1 else None
+                            break
+                    else:
+                        counter += 1
+
+            if not inHeader and line != "":
+                if any([possibleAttachment in lineCopy for possibleAttachment in possibleAttachments]) and (any([possibleFileExtension in lineCopy for possibleFileExtension in possibleFileExtensions]) or any([str(i) in lineCopy for i in range(10)])) and ":" in line:
+                    for file in line[line.index(":") + 2:].split():
+                        attachments.append(file)
+                else:
+                    body += line + '\n'
+
+        return Email(result[0], body.strip(), result[1], result[2], result[3], attachments if attachments != [] else None, isAReply, isAForward, sentFromIphone)
+    
 
     def parseEml(self, filePath):
         pass
@@ -20,8 +87,17 @@ class EmailParser:
         
         fileExtension = os.path.splitext(filePath)[1].lower()
         if fileExtension == ".txt":
-            pass
+            return self.parseTxt(filePath)
         elif fileExtension == ".eml":
-            pass
+            return self.parseEml(filePath)
         else:
             raise ValueError("Invalid file extension, must be .txt or .eml")
+        
+file = EmailParser()
+email = file.parseTxt("/Users/m0is/Desktop/hackatonTeam14/hackatonTeam14/inbox/mail_0099.txt")
+print(email.sender, '\n')
+print(email.subject, '\n')
+print(email.date, '\n')
+print(email.recipient, '\n')
+print(email.body, '\n')
+print(email.attachments, '\n')
