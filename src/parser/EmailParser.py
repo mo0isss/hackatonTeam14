@@ -20,7 +20,7 @@ class EmailParser:
         sentFromIphone = False
         isAForward = False
         isAReply = False
-        # result structure: 1 - sender, 2 - subject, 3 - recipient, 4 - date 
+        # result structure: 0 - sender, 1 - subject, 2 - recipient, 3 - date 
         inHeader = True
         body = ""
         attachments = []
@@ -103,9 +103,3 @@ class EmailParser:
                     raise ValueError("File is not an email")
             except UnicodeDecodeError:
                 raise ValueError("Invalid file extension, must be .txt")
-            
-file = EmailParser()
-email = file.parse("/Users/m0is/Desktop/hackatonTeam14/hackatonTeam14/inbox/mail_0106")
-print(email.sender)
-print(email.body)
-print(email.recipient)
