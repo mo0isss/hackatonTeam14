@@ -1,5 +1,5 @@
 class Email:
-    def __init__(self, sender, body, subject=None, recipient=None, date=None, attachments=None):
+    def __init__(self, sender, body, subject=None, recipient=None, date=None, attachments=None, isAReply=False, isAForward=False, sentFromIphone=False):
         if sender is None:
             raise ValueError("Sender cannot be None")
         if body is None:
@@ -11,6 +11,9 @@ class Email:
         self._recipient = recipient
         self._date = date
         self._attachments = attachments
+        self._isAReply = isAReply
+        self._isAForward = isAForward
+        self._sentFromIphone = sentFromIphone
 
     @property
     def sender(self):
@@ -35,3 +38,15 @@ class Email:
     @property
     def attachments(self):
         return self._attachments
+    
+    @property
+    def isAReply(self):
+        return self._isAReply
+    
+    @property
+    def isAForward(self):
+        return self._isAForward
+    
+    @property
+    def sentFromIphone(self):
+        return self._sentFromIphone
