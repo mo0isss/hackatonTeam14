@@ -23,15 +23,15 @@ class Email:
     @property
     def subject(self):
         return self._subject
+    
     @property
     def recipient(self):
         return self._recipient
+    
     @property
     def date(self):
         return self._date
+    
     @property
     def attachments(self):
         return self._attachments
-        
-email = Email("Sasha", "Text")
-print(email.sender)
