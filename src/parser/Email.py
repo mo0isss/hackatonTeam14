@@ -1,0 +1,52 @@
+class Email:
+    def __init__(self, sender, body, subject=None, recipient=None, date=None, attachments=None, isAReply=False, isAForward=False, sentFromIphone=False):
+        if sender is None:
+            raise ValueError("Sender cannot be None")
+        if body is None:
+            raise ValueError("Message cannot be None")
+        
+        self._sender = sender
+        self._body = body
+        self._subject = subject
+        self._recipient = recipient
+        self._date = date
+        self._attachments = attachments
+        self._isAReply = isAReply
+        self._isAForward = isAForward
+        self._sentFromIphone = sentFromIphone
+
+    @property
+    def sender(self):
+        return self._sender
+    
+    @property
+    def body(self):
+        return self._body
+    
+    @property
+    def subject(self):
+        return self._subject
+    
+    @property
+    def recipient(self):
+        return self._recipient
+    
+    @property
+    def date(self):
+        return self._date
+    
+    @property
+    def attachments(self):
+        return self._attachments
+    
+    @property
+    def isAReply(self):
+        return self._isAReply
+    
+    @property
+    def isAForward(self):
+        return self._isAForward
+    
+    @property
+    def sentFromIphone(self):
+        return self._sentFromIphone
