@@ -181,7 +181,7 @@ class Classification:
         ], full_text):
             return "invitation"
         
-        return f'other: {self.unknownTypeClassification(subject, attachments, date, body)}'
+        return f'other_{self.unknownTypeClassification(subject, attachments, date, body)}'
     
     def unknownTypeClassification(self, subject: str, attachments: str, date: str, text: str) -> str:
         if subject is not None and subject != "" and "re" not in subject.lower() and "fwd" not in subject.lower():
