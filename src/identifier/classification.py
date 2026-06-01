@@ -35,26 +35,30 @@ class Classification:
         ], full_text):
             return "spam"
 
-        if self.words_in_text([
-            "критич",
-            "ошибка 500",
-            "остановлена",
-            "всего отдела",
-            "всех отдела",
-            "по-прежнему недоступ",
-            "массовый сбой",
-            "несколько коллег",
-
-            "kritich",
-            "oshibka 500",
-            "ostanovlena",
-            "vsego otdela",
-            "vseh otdela",
-            "po-prezhnemu nedostup",
-            "massovyy sboy",
-            "neskolko kolleg"
-        ], full_text):
-            return "urgent_cases"
+        if (("не работает" in full_text and "день" in full_text) or 
+        ("ne rabotaet" in full_text and "den" in full_text) or 
+        self.words_in_text([
+                "критич",
+                "ошибка 500",
+                "остановлена",
+                "всего отдела",
+                "всех отдела",
+                "по-прежнему недоступ",
+                "массовый сбой",
+                "несколько коллег",
+                "срочно разобраться",
+                "srochno razobratsya",
+                "urgent",
+                "kritich",
+                "oshibka 500",
+                "ostanovlena",
+                "vsego otdela",
+                "vseh otdela",
+                "po-prezhnemu nedostup",
+                "massovyy sboy",
+                "neskolko kolleg"
+            ], full_text)):
+                return "urgent_cases"
 
         if self.words_in_text([
             "мониторинг",
