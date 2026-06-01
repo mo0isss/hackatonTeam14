@@ -1,3 +1,5 @@
+import pymorphy2
+
 class Classification:
     def words_in_text(self, words, text):
         for word in words:
@@ -8,6 +10,8 @@ class Classification:
     def classify(self, email):
         subject = (email.subject or "").lower()
         body = email.body.lower()
+        attachments = email.attachments
+        date = email.date
 
         full_text = subject + " " + body
 
@@ -35,26 +39,30 @@ class Classification:
         ], full_text):
             return "spam"
 
-        if self.words_in_text([
-            "критич",
-            "ошибка 500",
-            "остановлена",
-            "всего отдела",
-            "всех отдела",
-            "по-прежнему недоступ",
-            "массовый сбой",
-            "несколько коллег",
-
-            "kritich",
-            "oshibka 500",
-            "ostanovlena",
-            "vsego otdela",
-            "vseh otdela",
-            "po-prezhnemu nedostup",
-            "massovyy sboy",
-            "neskolko kolleg"
-        ], full_text):
-            return "urgent_cases"
+        if (("не работает" in full_text and "день" in full_text) or 
+        ("ne rabotaet" in full_text and "den" in full_text) or 
+        self.words_in_text([
+                "критич",
+                "ошибка 500",
+                "остановлена",
+                "всего отдела",
+                "всех отдела",
+                "по-прежнему недоступ",
+                "массовый сбой",
+                "несколько коллег",
+                "срочно разобраться",
+                "srochno razobratsya",
+                "urgent",
+                "kritich",
+                "oshibka 500",
+                "ostanovlena",
+                "vsego otdela",
+                "vseh otdela",
+                "po-prezhnemu nedostup",
+                "massovyy sboy",
+                "neskolko kolleg"
+            ], full_text)):
+                return "urgent_cases"
 
         if self.words_in_text([
             "мониторинг",
@@ -172,4 +180,31 @@ class Classification:
             "sozvon"
         ], full_text):
             return "invitation"
-        return "other"
+        
+        return f'other: {self.unknownTypeClassification(subject, attachments, date, body)}'
+    
+    def unknownTypeClassification(self, subject: str, attachments: str, date: str, text: str) -> str:
+        if subject is not None and subject != "" and "re" not in subject.lower() and "fwd" not in subject.lower():
+            return subject
+        elif attachments is not None:
+            return attachments[0]
+        elif date is not None and date != "":
+            return date
+        else:
+            for symbol in ':,.;/-=_':
+                text = text.replace(symbol, " ")
+
+            morph = pymorphy2.MorphAnalyzer()
+            frequency = {}
+            banWords = ['день', 'добрый', 'уважаемый', 'смотреть', 'вечер', 'здравствуйте', 'приветствую']
+
+            for word in text.split():
+                normalForm = morph.parse(word)[0].normal_form
+                if len(normalForm) <= 3 or normalForm in banWords:
+                    continue
+                if normalForm not in frequency.keys():
+                    frequency.update({normalForm: 1})
+                else:
+                    frequency[normalForm] += 1
+
+            return max(frequency, key=lambda x: frequency[x])
