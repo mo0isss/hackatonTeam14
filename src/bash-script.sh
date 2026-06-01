@@ -4,8 +4,8 @@ if [ ! -d "inbox" ]; then
     echo "Error: 'inbox' folder does not exist"
     exit 1
 fi
-file_count=$(find inbox -type f -name "*.eml" 2>/dev/null | wc -l)
-echo "Found .eml files: $file_count"
+file_count=$(find inbox -type f -name "*" 2>/dev/null | wc -l)
+echo "Found files: $file_count"
 echo "Analysis started"
 python3 main.py
 exit_code=$?
