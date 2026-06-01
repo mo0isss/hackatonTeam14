@@ -1,5 +1,5 @@
 import os
-from Email import Email
+from src.parser.Email import Email
 
 class EmailParser:
     def parseTxt(self, filePath) -> Email:
