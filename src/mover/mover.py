@@ -1,7 +1,7 @@
 import shutil
 from pathlib import Path
 
-def mover(email: str, email_category: str, default_direction: str = 'Treated') -> str:
+def mover(email: str, email_category: str, default_direction: str = 'treated') -> str:
     email_path = Path(email)
     default_direction_path = Path(default_direction)
     new_direction_partly = default_direction_path / email_category
