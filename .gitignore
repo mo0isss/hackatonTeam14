@@ -1,11 +1,8 @@
 __pycache__/
-<<<<<<< HEAD
-*.log
-inbox/
-=======
+.pytest_cache/
 *.pyc
 *.log
 logs/
 inbox/
->>>>>>> origin/logsAndStatistics
+Treated/
 .DS_Store
