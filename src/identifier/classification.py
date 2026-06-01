@@ -75,7 +75,7 @@ class Classification:
             "tekhnicheskie raboty",
             "itogi kvartala"
         ], full_text):
-            return "newsletter"
+            return "news_letter"
 
         if self.words_in_text([
             "outlook",
