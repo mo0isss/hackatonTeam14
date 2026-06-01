@@ -31,7 +31,7 @@ class Statistics:
     
     def create_statistics(self):
         lines=[]
-        lines.append("== Статистика обработки почты ==")
+        lines.append("~~ Статистика обработки почты ~~")
         lines.append(f"Общее количество файлов: {self.files_count}")
         lines.append(f"Обработано без ошибок: {self.processed_files}")
         lines.append(f"Количество ошибок: {self.error_files}")
