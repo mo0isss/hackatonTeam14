@@ -1,4 +1,4 @@
-import pymorphy2
+import pymorphy3
 
 class Classification:
     def words_in_text(self, words, text):
@@ -194,7 +194,7 @@ class Classification:
             for symbol in ':,.;/-=_':
                 text = text.replace(symbol, " ")
 
-            morph = pymorphy2.MorphAnalyzer()
+            morph = pymorphy3.MorphAnalyzer()
             frequency = {}
             banWords = ['день', 'добрый', 'уважаемый', 'смотреть', 'вечер', 'здравствуйте', 'приветствую']
 
