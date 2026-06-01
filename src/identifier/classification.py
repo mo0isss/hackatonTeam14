@@ -17,12 +17,21 @@ class Classification:
             "банковской карты",
             "подозрительный вход",
             "логина и пароля",
-
+            "скидка",
+            "акция",
+            "вы выиграли",
+            "верифик",
+            "доступ будет заблокирован",
             "rozygrysh",
             "priz",
             "bankovskoy karty",
             "podozritelnyy vhod",
-            "logina i parolya"
+            "logina i parolya",
+            "vy vyigrali",
+            "aktsiya",
+            "skidka",
+            "verifi",
+            "dostup budet zablokirovan", 
         ], full_text):
             return "spam"
 
@@ -33,12 +42,17 @@ class Classification:
             "всего отдела",
             "всех отдела",
             "по-прежнему недоступ",
+            "массовый сбой",
+            "несколько коллег",
+
             "kritich",
             "oshibka 500",
             "ostanovlena",
             "vsego otdela",
             "vseh otdela",
-            "po-prezhnemu nedostup"
+            "po-prezhnemu nedostup",
+            "massovyy sboy",
+            "neskolko kolleg"
         ], full_text):
             return "urgent_cases"
 
@@ -58,7 +72,8 @@ class Classification:
             "технические работы",
             "итоги квартала",
             "daydzhest",
-            "tekhnicheskie raboty"
+            "tekhnicheskie raboty",
+            "itogi kvartala"
         ], full_text):
             return "newsletter"
 
@@ -79,7 +94,9 @@ class Classification:
             "ne zapuskaetsya",
             "knopka",
             "zoom",
-            "excel"
+            "excel",
+            "api",
+            "unauthorized"
         ], full_text):
             return "software_problem"
         
@@ -90,6 +107,7 @@ class Classification:
             "мышь",
             "принтер",
             "клавиатур",
+            "сканер",
             "ремонт",
             "диагностик",
             "замен",
@@ -99,7 +117,8 @@ class Classification:
             "mysh",
             "printer",
             "klaviatur",
-            "remont"
+            "remont",
+            "skaner"
         ], full_text):
             return "equipment"
 
@@ -120,11 +139,15 @@ class Classification:
             "реквизит",
             "счёт",
             "оплат",
+            "задан",
+            "акт",
             "dogovor",
             "instruk",
             "rekvizit",
             "schet",
-            "oplat"
+            "oplat",
+            "zadan",
+            "akt"
         ], full_text):
             return "documents"
 
