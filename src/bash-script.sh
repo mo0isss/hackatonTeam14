@@ -1,18 +1,18 @@
 #!/bin/bash
-echo "Анализ почтового ящика"
+echo "Mailbox Analysis"
 if [ ! -d "inbox" ]; then
-    echo "Ошибка, папка 'inbox' не существует"
+    echo "Error: 'inbox' folder does not exist"
     exit 1
 fi
 file_count=$(find inbox -type f -name "*.eml" 2>/dev/null | wc -l)
-echo "Найдено .eml файлов: $file_count"
-echo "Анализ начался"
+echo "Found .eml files: $file_count"
+echo "Analysis started"
 python3 main.py
 exit_code=$?
-echo "Анализ окончен"
+echo "Analysis finished"
 if [ $exit_code -eq 0 ]; then
-    echo "окончен успешно"
+    echo "Completed successfully"
 else
-    echo "ошибка (код: $exit_code)"
+    echo "Error (code: $exit_code)"
 fi
 exit $exit_code
