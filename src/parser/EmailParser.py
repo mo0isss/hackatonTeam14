@@ -26,7 +26,7 @@ class EmailParser:
         attachments = []
         possibleHeaders = [("from", "от кого", "sender", "отправитель", "ot kogo"), ("тема", "subject", "topic", "tema"), ("recipient", "получатель", "кому", "komu", "to"), ("date", "дата", "data")]
         possibleAttachments = ("прикрепил", "вложение", "файл", "во вложении", "pinned", "attached", "prikrepil", "приложил", "прикладываю", "код", "code", "error", "ошибк")
-        possibleFileExtensions = (".txt", ".pdf", ".jpeg", ".docx", ".png", ".xls", ".xlsx", ".jpg", ".json", ".bin")
+        possibleFileExtensions = (".txt", ".pdf", ".jpeg", ".docx", ".png", ".xls", ".xlsx", ".jpg", ".json", ".bin", ".zip")
 
         for line in lines:
             line = line.rstrip('\n')
@@ -46,7 +46,7 @@ class EmailParser:
             
             lineCopy = line.lower()
 
-            if inHeader and line == "":
+            if inHeader and line == "" and result[0] is not None:
                 inHeader = False
                 continue
             
@@ -71,6 +71,9 @@ class EmailParser:
                 else:
                     body += line + '\n'
 
+        if result[0] is None:
+            raise ValueError("File is not an email")
+        
         return Email(result[0], 
                      body.strip(), 
                      result[1], 
