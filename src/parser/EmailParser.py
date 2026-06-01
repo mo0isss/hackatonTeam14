@@ -1,5 +1,5 @@
 import os
-from src.parser.Email import Email
+from Email import Email
 
 class EmailParser:
     def parseTxt(self, filePath) -> Email:
@@ -25,7 +25,7 @@ class EmailParser:
         body = ""
         attachments = []
         possibleHeaders = [("from", "от кого", "sender", "отправитель", "ot kogo"), ("тема", "subject", "topic", "tema"), ("recipient", "получатель", "кому", "komu", "to"), ("date", "дата", "data")]
-        possibleAttachments = ("прикрепил", "вложение", "файл", "во вложении", "pinned", "attached", "prikrepil", "приложил", "прикладываю", "код", "code", "error", "ошибк")
+        possibleAttachments = ("прикрепил", "вложение", "файл", "во вложении", "pinned", "attached", "prikrepil", "приложил", "прикладываю", "код", "code", "error")
         possibleFileExtensions = (".txt", ".pdf", ".jpeg", ".docx", ".png", ".xls", ".xlsx", ".jpg", ".json", ".bin", ".zip")
 
         for line in lines:
