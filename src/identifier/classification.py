@@ -207,4 +207,4 @@ class Classification:
                 else:
                     frequency[normalForm] += 1
 
-            return max(frequency, key=lambda x: frequency[x])
+            return max(frequency, key=lambda x: frequency[x]) if frequency is not {} else ""
