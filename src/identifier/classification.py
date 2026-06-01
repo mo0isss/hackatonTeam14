@@ -186,7 +186,7 @@ class Classification:
     def unknownTypeClassification(self, subject: str, attachments: str, date: str, text: str) -> str:
         if subject is not None and subject != "" and "re" not in subject.lower() and "fwd" not in subject.lower():
             return subject
-        elif attachments is not None:
+        elif attachments:
             return attachments[0]
         elif date is not None and date != "":
             return date
@@ -207,4 +207,4 @@ class Classification:
                 else:
                     frequency[normalForm] += 1
 
-            return max(frequency, key=lambda x: frequency[x]) if frequency is not {} else ""
+            return max(frequency, key=lambda x: frequency[x]) if frequency else "unknown"
