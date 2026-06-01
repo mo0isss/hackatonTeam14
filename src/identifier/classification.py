@@ -19,14 +19,14 @@ class Classification:
             "логина и пароля",
             "скидка",
             "акция",
-            "вы выиграли"
+            "вы выиграли",
             "верифик",
             "доступ будет заблокирован",
             "rozygrysh",
             "priz",
             "bankovskoy karty",
             "podozritelnyy vhod",
-            "logina i parolya"
+            "logina i parolya",
             "vy vyigrali",
             "aktsiya",
             "skidka",
@@ -146,7 +146,7 @@ class Classification:
             "rekvizit",
             "schet",
             "oplat",
-            "zadan"
+            "zadan",
             "akt"
         ], full_text):
             return "documents"
