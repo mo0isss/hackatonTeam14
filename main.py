@@ -9,7 +9,7 @@ def main():
         return
     parser = EmailParser()
     classifier = Classification()
-    letters = list(inbox_path.glob("*.txt"))
+    letters = list(inbox_path.glob("*"))
     if len(letters) == 0:
         print('Inbox folder is empty')
         return
@@ -17,8 +17,9 @@ def main():
         try:
             email = parser.parse(str(letter))
             category = classifier.classify(email)
-            new_path = mover(str(letter), category)
+            mover(str(letter), category)
         except Exception as error:
             print(f"Error occured: {letter.name}:{error}")
+            mover(str(letter), "other")
 if __name__ == "__main__":
     main()
